@@ -1,0 +1,56 @@
+[
+    {
+        "sto": "GSA", 
+        "odp": 1,
+        "preparation": 1,
+        "construction": 1,
+        "closing": 1,
+        "aktif": 1,
+        "drop": 1
+    },
+    {
+        "sto": "BRU", 
+        "odp": 5,
+        "preparation": 9,
+        "construction": 3,
+        "closing": 2,
+        "aktif": 2,
+        "drop": 0
+    },
+    {
+        "sto": "BAM", 
+        "odp": 5,
+        "preparation": 1,
+        "construction": 3,
+        "closing": 1,
+        "aktif": 0,
+        "drop": 3
+    },
+    {
+        "sto": "KRO", 
+        "odp": 2,
+        "preparation": 5,
+        "construction": 3,
+        "closing": 2,
+        "aktif": 2,
+        "drop": 2
+    },
+    {
+        "sto": "GTK", 
+        "odp": 5,
+        "preparation": 2,
+        "construction": 3,
+        "closing": 1,
+        "aktif": 1,
+        "drop": 4
+    },
+    {
+        "sto": "KJN", 
+        "odp": 3,
+        "preparation": 5,
+        "construction": 1,
+        "closing": 1,
+        "aktif": 1,
+        "drop": 2
+    }
+]

@@ -1,0 +1,20 @@
+[
+    {
+        "project": "OSP1", 
+        "tahun": 2022,
+        "sto": "GSA",
+        "ongoing": 0,
+        "nama_lop": "OSP122-GSA-TES PROJECT1",
+        "status_microdemand": "On Going",
+        "status_lop": "No Go"
+    },
+    {
+        "project": "OSP2", 
+        "tahun": 2022,
+        "sto": "KJN",
+        "ongoing": 0,
+        "nama_lop": "OSP222-KJN-TES PROJECT2",
+        "status_microdemand": "Approved",
+        "status_lop": "Go"
+    }
+]

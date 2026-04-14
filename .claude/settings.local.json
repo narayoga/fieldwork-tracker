@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(psql --version)",
+      "Bash(mysql --version)",
+      "Bash(pg_ctl --version)",
+      "Bash(mysqld --version)",
+      "Bash(where psql:*)",
+      "Bash(where mysql:*)",
+      "Bash(where mongod:*)",
+      "Bash(where sqlite3:*)",
+      "Bash(sc query:*)",
+      "Bash(\"/c/Program Files/PostgreSQL/18/bin/psql\" --version)",
+      "Bash(\"/c/Program Files/PostgreSQL/18/bin/pg_ctl\" status -D \"/c/Program Files/PostgreSQL/18/data\")",
+      "Bash(go version:*)",
+      "Bash(go mod:*)",
+      "Bash(go get:*)",
+      "Bash(go build:*)",
+      "Bash(go run:*)",
+      "Bash(pkill -f \"go run cmd/server/main.go\")",
+      "Bash(pkill -f \"main.go\")",
+      "Bash(taskkill //F //IM \"main.exe\")",
+      "Bash(PGPASSWORD=123123 \"/c/Program Files/PostgreSQL/18/bin/psql\" -U postgres -d pas_database -c \"SELECT id, username, password, role, is_approved FROM users;\")",
+      "Read(//c/Program Files/PostgreSQL/**)",
+      "Bash('C:/Program Files/PostgreSQL/18/bin/psql.exe' -U postgres -d pas_database -c 'UPDATE users SET password = '\\\\''$2a$10$F6RoDDtTCMhXmsArQ8NQmuyZiUDlQo6BNtfXzlOTeIlGeb2UUcEPm'\\\\'' WHERE username = '\\\\''admin'\\\\'';')",
+      "Bash(cmd/server/main.exe)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //F //PID 18044)",
+      "Bash(tasklist)",
+      "Bash(taskkill //F //PID 11268)"
+    ]
+  }
+}

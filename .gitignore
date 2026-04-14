@@ -1,0 +1,19 @@
+# Dependencies
+client-main/node_modules/
+client-main/build/
+
+# Environment files (contain secrets)
+backend/.env
+client-main/.env.local
+client-main/.env.production
+
+# Go build output
+backend/cmd/server/main.exe
+backend/cmd/server/server.exe
+
+# Uploaded files
+backend/uploads/
+
+# OS files
+.DS_Store
+Thumbs.db

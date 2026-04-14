@@ -1,0 +1,62 @@
+[
+    {
+        "sto": "GSA", 
+        "lop": 2,
+        "odp": 0,
+        "ongoing": 0,
+        "rejected": 1,
+        "approved": 1,
+        "go": 1,
+        "no_go": 1
+    },
+    {
+        "sto": "BRU", 
+        "lop": 7,
+        "odp": 12,
+        "ongoing": 1,
+        "rejected": 5,
+        "approved": 1,
+        "go": 2,
+        "no_go": 5
+    },
+    {
+        "sto": "BAM", 
+        "lop": 4,
+        "odp": 1,
+        "ongoing": 3,
+        "rejected": 1,
+        "approved": 0,
+        "go": 3,
+        "no_go": 1
+    },
+    {
+        "sto": "KRO", 
+        "lop": 2,
+        "odp": 5,
+        "ongoing": 0,
+        "rejected": 0,
+        "approved": 2,
+        "go": 2,
+        "no_go": 0
+    },
+    {
+        "sto": "GTK", 
+        "lop": 5,
+        "odp": 2,
+        "ongoing": 3,
+        "rejected": 1,
+        "approved": 1,
+        "go": 4,
+        "no_go": 1
+    },
+    {
+        "sto": "KJN", 
+        "lop": 3,
+        "odp": 5,
+        "ongoing": 1,
+        "rejected": 1,
+        "approved": 1,
+        "go": 2,
+        "no_go": 1
+    }
+]

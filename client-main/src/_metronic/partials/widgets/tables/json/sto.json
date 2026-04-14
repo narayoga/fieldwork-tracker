@@ -1,0 +1,20 @@
+[
+    {"sto":"BRU", "id":1},
+    {"sto":"BAM", "id":2},
+    {"sto":"KRO", "id":3},
+    {"sto":"BTK", "id":4},
+    {"sto":"MKM", "id":5},
+    {"sto":"KJN", "id":7},
+    {"sto":"KTB", "id":8},
+    {"sto":"PTG", "id":9},
+    {"sto":"LAB", "id":10},
+    {"sto":"LIK", "id":11},
+    {"sto":"MGG", "id":12},
+    {"sto":"MJW", "id":13},
+    {"sto":"PNJ", "id":14},
+    {"sto":"SKU", "id":15},
+    {"sto":"TNG", "id":16},
+    {"sto":"KNA", "id":17},
+    {"sto":"GSA", "id":18}
+
+]
