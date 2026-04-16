@@ -1,0 +1,100 @@
+.role-picker {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.role-picker__toggle {
+  background: #3699ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(54, 153, 255, 0.25);
+  transition: background 0.2s ease;
+}
+
+.role-picker__toggle:hover {
+  background: #1b84ff;
+}
+
+.role-picker__caret {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.role-picker__caret--open {
+  transform: rotate(180deg);
+}
+
+.role-picker__panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #e4e6ef;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: max-height 0.3s ease, opacity 0.2s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.role-picker__panel--open {
+  max-height: 300px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.role-picker__header {
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7e8299;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #f1f1f4;
+}
+
+.role-picker__item {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  color: #181c32;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.role-picker__item:hover {
+  background: #f1faff;
+  color: #3699ff;
+}
+
+.role-picker__item-role {
+  font-weight: 600;
+}
+
+.role-picker__item-user {
+  display: block;
+  font-size: 11px;
+  color: #a1a5b7;
+  margin-top: 2px;
+}

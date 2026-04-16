@@ -9,6 +9,13 @@ import { toAbsoluteUrl } from '../../../../_metronic/helpers'
 import { useAuth } from '../core/Auth'
 import axios from 'axios'
 import { AppsContext } from '../../../routing/AppRoutes'
+import './RolePicker.css'
+
+const ROLE_PRESETS = [
+  { role: 'Optima', username: 'admin', password: 'Password123' },
+  { role: 'Mitra', username: 'mitra', password: 'Mitra123' },
+  { role: 'Hero', username: 'hero', password: 'Hero123' },
+]
 
 const loginSchema = Yup.object().shape({
   password: Yup.string()
@@ -26,9 +33,16 @@ const initialValues = {
 
 export function Login() {
   const [loading, setLoading] = useState(false)
+  const [showRoles, setShowRoles] = useState(false)
   const { saveAuth, setCurrentUser } = useAuth()
   // const  {setApps}  = useContext(AppsContext);
   const navigate = useNavigate()
+
+  const handlePickRole = (preset) => {
+    formik.setFieldValue('username', preset.username)
+    formik.setFieldValue('password', preset.password)
+    setShowRoles(false)
+  }
 
   const formik = useFormik({
     initialValues,
@@ -83,7 +97,37 @@ export function Login() {
       onSubmit={formik.handleSubmit}
       noValidate
       id='kt_login_signin_form'
+      style={{ position: 'relative' }}
     >
+      {/* begin::Role Picker */}
+      <div className='role-picker'>
+        <button
+          type='button'
+          className='role-picker__toggle'
+          onClick={() => setShowRoles((v) => !v)}
+        >
+          Quick Login
+          <span className={`role-picker__caret ${showRoles ? 'role-picker__caret--open' : ''}`}>
+            &#9662;
+          </span>
+        </button>
+        <div className={`role-picker__panel ${showRoles ? 'role-picker__panel--open' : ''}`}>
+          <div className='role-picker__header'>Pick a role</div>
+          {ROLE_PRESETS.map((preset) => (
+            <button
+              key={preset.role}
+              type='button'
+              className='role-picker__item'
+              onClick={() => handlePickRole(preset)}
+            >
+              <span className='role-picker__item-role'>{preset.role}</span>
+              <span className='role-picker__item-user'>{preset.username}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      {/* end::Role Picker */}
+
       {/* begin::Heading */}
       <div className='text-center mb-10'>
         <h1 className='text-dark mb-3'>Sign In to PAS</h1>

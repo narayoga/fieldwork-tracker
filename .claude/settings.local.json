@@ -27,7 +27,8 @@
       "Bash(netstat -ano)",
       "Bash(taskkill //F //PID 18044)",
       "Bash(tasklist)",
-      "Bash(taskkill //F //PID 11268)"
+      "Bash(taskkill //F //PID 11268)",
+      "Bash(dir)"
     ]
   }
 }
