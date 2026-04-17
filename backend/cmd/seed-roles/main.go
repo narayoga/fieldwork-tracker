@@ -43,6 +43,7 @@ func main() {
 	}
 
 	users := []seedUser{
+		{Username: "admin", Password: "Password123", Role: "Optima", Handphone: ""},
 		{Username: "mitra", Password: "Mitra123", Role: "Mitra", Handphone: ""},
 		{Username: "hero", Password: "Hero123", Role: "Hero", Handphone: ""},
 	}
