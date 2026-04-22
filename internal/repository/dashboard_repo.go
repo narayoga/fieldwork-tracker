@@ -11,11 +11,11 @@ func GetPlanningRecap() ([]models.PlanningRecap, error) {
 			sto,
 			COUNT(*) as jumlah_lop,
 			0 as jumlah_odp,
-			COUNT(*) FILTER (WHERE status_microdemand = 'Ongoing') as ongoing,
-			COUNT(*) FILTER (WHERE status_microdemand = 'Rejected') as rejected,
-			COUNT(*) FILTER (WHERE status_microdemand = 'Approved') as approved,
-			COUNT(*) FILTER (WHERE status_lop = 'Go') as status_go,
-			COUNT(*) FILTER (WHERE status_lop = 'No Go') as status_no_go
+			SUM(CASE WHEN status_microdemand = 'Ongoing'  THEN 1 ELSE 0 END) as ongoing,
+			SUM(CASE WHEN status_microdemand = 'Rejected' THEN 1 ELSE 0 END) as rejected,
+			SUM(CASE WHEN status_microdemand = 'Approved' THEN 1 ELSE 0 END) as approved,
+			SUM(CASE WHEN status_lop = 'Go'              THEN 1 ELSE 0 END) as status_go,
+			SUM(CASE WHEN status_lop = 'No Go'           THEN 1 ELSE 0 END) as status_no_go
 		FROM planning
 		GROUP BY sto
 		ORDER BY sto
@@ -42,11 +42,11 @@ func GetConstructionRecap() ([]models.ConstructionRecap, error) {
 		SELECT
 			sto,
 			COUNT(*) as jumlah_odp,
-			COUNT(*) FILTER (WHERE preparing IS NOT NULL AND preparing != '') as preparing,
-			COUNT(*) FILTER (WHERE construction IS NOT NULL AND construction != '') as construction,
-			COUNT(*) FILTER (WHERE closing IS NOT NULL AND closing != '') as closing,
-			COUNT(*) FILTER (WHERE status_lop = 'Aktif') as aktif,
-			COUNT(*) FILTER (WHERE status_lop = 'Drop') as drop
+			SUM(CASE WHEN preparing   IS NOT NULL AND preparing   != '' THEN 1 ELSE 0 END) as preparing,
+			SUM(CASE WHEN construction IS NOT NULL AND construction != '' THEN 1 ELSE 0 END) as construction,
+			SUM(CASE WHEN closing     IS NOT NULL AND closing     != '' THEN 1 ELSE 0 END) as closing,
+			SUM(CASE WHEN status_lop = 'Aktif' THEN 1 ELSE 0 END) as aktif,
+			SUM(CASE WHEN status_lop = 'Drop'  THEN 1 ELSE 0 END) as drop_count
 		FROM construction
 		GROUP BY sto
 		ORDER BY sto

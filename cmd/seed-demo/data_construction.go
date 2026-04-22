@@ -166,7 +166,7 @@ func seedConstruction(tx *sql.Tx) error {
 		`INSERT INTO construction
 		 (id_lop, nama_lop, sto, odp_plan, odp_actual, nama_waspang, mitra_under_ta,
 		  preparing, construction, closing, status_lop, keterangan)
-		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 	)
 	if err != nil {
 		return err

@@ -17,7 +17,7 @@ var mitraRows = []struct {
 
 func seedMitra(tx *sql.Tx) error {
 	stmt, err := tx.Prepare(
-		`INSERT INTO mitra (subcon, manpower, jointer, mandor) VALUES ($1, $2, $3, $4)`,
+		`INSERT INTO mitra (subcon, manpower, jointer, mandor) VALUES (?, ?, ?, ?)`,
 	)
 	if err != nil {
 		return err

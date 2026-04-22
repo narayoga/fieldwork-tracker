@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
 	"time"
@@ -72,7 +73,17 @@ func UploadPhoto(c *gin.Context) {
 	// Generate unique filename
 	ext := filepath.Ext(file.Filename)
 	filename := fmt.Sprintf("%s_%s_%d%s", namaLop, step, time.Now().UnixNano(), ext)
-	savePath := filepath.Join("uploads", filename)
+
+	// Resolve upload dir — env override for serverless (Vercel => /tmp).
+	uploadDir := os.Getenv("UPLOAD_DIR")
+	if uploadDir == "" {
+		uploadDir = "uploads"
+	}
+	if err := os.MkdirAll(uploadDir, 0755); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Upload dir error"})
+		return
+	}
+	savePath := filepath.Join(uploadDir, filename)
 
 	if err := c.SaveUploadedFile(file, savePath); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to save file"})
@@ -82,7 +93,7 @@ func UploadPhoto(c *gin.Context) {
 	photo := models.ConstructionPhoto{
 		NamaLop: namaLop,
 		Step:    step,
-		Lokasi:  "/" + savePath,
+		Lokasi:  "/uploads/" + filename,
 	}
 
 	if err := repository.SavePhoto(photo); err != nil {

@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
+	_ "github.com/go-sql-driver/mysql"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -23,16 +23,16 @@ func main() {
 		log.Println("no .env file found, using environment variables")
 	}
 
-	connStr := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
+	dsn := fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"),
 	)
 
-	db, err := sql.Open("postgres", connStr)
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalf("open db: %v", err)
 	}
@@ -56,11 +56,11 @@ func main() {
 
 		_, err = db.Exec(`
 			INSERT INTO users (username, password, role, handphone, is_approved)
-			VALUES ($1, $2, $3, $4, true)
-			ON CONFLICT (username) DO UPDATE
-			SET password = EXCLUDED.password,
-			    role = EXCLUDED.role,
-			    is_approved = true
+			VALUES (?, ?, ?, ?, true)
+			ON DUPLICATE KEY UPDATE
+				password   = VALUES(password),
+				role       = VALUES(role),
+				is_approved = true
 		`, u.Username, string(hash), u.Role, u.Handphone)
 		if err != nil {
 			log.Fatalf("insert %s: %v", u.Username, err)

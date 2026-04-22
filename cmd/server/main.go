@@ -16,7 +16,9 @@ func main() {
 	}
 
 	// Connect database
-	config.ConnectDB()
+	if err := config.ConnectDB(); err != nil {
+		log.Fatal("DB connect failed:", err)
+	}
 	defer config.DB.Close()
 
 	// Setup router

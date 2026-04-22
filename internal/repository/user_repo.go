@@ -7,7 +7,7 @@ import (
 
 func CreateUser(req models.RegisterRequest, hashedPassword string) error {
 	_, err := config.DB.Exec(
-		"INSERT INTO users (username, password, role, handphone) VALUES ($1, $2, $3, $4)",
+		"INSERT INTO users (username, password, role, handphone) VALUES (?, ?, ?, ?)",
 		req.Username, hashedPassword, req.Role, req.Handphone,
 	)
 	return err
@@ -16,7 +16,7 @@ func CreateUser(req models.RegisterRequest, hashedPassword string) error {
 func GetUserByUsername(username string) (*models.User, error) {
 	user := &models.User{}
 	err := config.DB.QueryRow(
-		"SELECT id, username, password, role, handphone, is_approved FROM users WHERE username = $1",
+		"SELECT id, username, password, role, handphone, is_approved FROM users WHERE username = ?",
 		username,
 	).Scan(&user.ID, &user.Username, &user.Password, &user.Role, &user.Handphone, &user.IsApproved)
 	if err != nil {
@@ -44,6 +44,6 @@ func ListUsers() ([]models.User, error) {
 }
 
 func ApproveUser(username string) error {
-	_, err := config.DB.Exec("UPDATE users SET is_approved = TRUE WHERE username = $1", username)
+	_, err := config.DB.Exec("UPDATE users SET is_approved = TRUE WHERE username = ?", username)
 	return err
 }

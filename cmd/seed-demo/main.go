@@ -1,20 +1,12 @@
 // Package main seeds demo data for investor presentation.
 //
-// Story: Telkom fiber deployment in Balikpapan (Kalimantan Timur).
-// - 3 Mitra vendors (subcon)
-// - 30 Planning records across 4 STOs (BPP, BPU, BPS, BPT)
-// - 20 Construction records (subset of approved planning)
-// - 12 ODP golive records (from fully completed construction)
-// - 2 total failure records for realism (1 dropped at planning, 1 at construction)
-//
-// Idempotent: TRUNCATE all demo tables before inserting. Does NOT touch `users`
-// (that is managed by cmd/seed-roles).
-//
+// Idempotent: TRUNCATE all demo tables before inserting. Does NOT touch `users`.
 // Deterministic: uses fixed random seed so every run yields identical data.
 //
 // Run:
-//   cd backend
-//   go run ./cmd/seed-demo
+//
+//	cd backend
+//	go run ./cmd/seed-demo
 package main
 
 import (
@@ -24,8 +16,8 @@ import (
 	"math/rand"
 	"os"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -35,16 +27,16 @@ func main() {
 		log.Println("no .env file found, using environment variables")
 	}
 
-	connStr := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
+	dsn := fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"),
 	)
 
-	db, err := sql.Open("postgres", connStr)
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalf("open db: %v", err)
 	}
@@ -88,18 +80,23 @@ func main() {
 }
 
 func truncateAll(tx *sql.Tx) error {
-	// Order: child tables first, but CASCADE covers that. users is preserved.
-	_, err := tx.Exec(`
-		TRUNCATE TABLE
-			planning_odp,
-			planning,
-			construction_photos,
-			construction,
-			odp,
-			mitra
-		RESTART IDENTITY CASCADE
-	`)
-	return err
+	// MySQL requires disabling FK checks before TRUNCATE
+	statements := []string{
+		"SET FOREIGN_KEY_CHECKS = 0",
+		"TRUNCATE TABLE planning_odp",
+		"TRUNCATE TABLE planning",
+		"TRUNCATE TABLE construction_photos",
+		"TRUNCATE TABLE construction",
+		"TRUNCATE TABLE odp",
+		"TRUNCATE TABLE mitra",
+		"SET FOREIGN_KEY_CHECKS = 1",
+	}
+	for _, s := range statements {
+		if _, err := tx.Exec(s); err != nil {
+			return fmt.Errorf("%s: %w", s, err)
+		}
+	}
+	return nil
 }
 
 func printSummary(db *sql.DB) {

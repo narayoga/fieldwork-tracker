@@ -2,30 +2,20 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
-
-	"github.com/lib/pq"
 )
 
-// 30 Planning records across 4 STOs in Balikpapan.
-// Status distribution (for meaningful dashboard):
-//   - Approved:  24   (80%)
-//   - Ongoing:   4    (13%)
-//   - Rejected:  2    (7%)
-// status_lop:
-//   - Go:        23   (approved + proceeding)
-//   - No Go:     1    (approved but dropped — the 1st failure)
-//   - empty:     6    (ongoing + rejected, not yet decided)
 type planningRow struct {
 	STO               string
 	NamaLop           string
-	StatusMicrodemand string // Approved | Ongoing | Rejected
-	StatusLop         string // Go | No Go | (empty for not-decided)
+	StatusMicrodemand string
+	StatusLop         string
 	Keterangan        string
 }
 
 var planningRows = []planningRow{
-	// --- BPP (Balikpapan Kota) — 12 records ---
+	// --- BPP (Balikpapan Kota) --- 12 records
 	{"BPP", "LOP-BPP-001 Klandasan Ilir", "Approved", "Go", "Area komersial padat"},
 	{"BPP", "LOP-BPP-002 Klandasan Ulu", "Approved", "Go", "Perumahan"},
 	{"BPP", "LOP-BPP-003 Prapatan Blok A", "Approved", "Go", "Ruko"},
@@ -39,7 +29,7 @@ var planningRows = []planningRow{
 	{"BPP", "LOP-BPP-011 Mekar Sari", "Ongoing", "", "Microdemand dalam review"},
 	{"BPP", "LOP-BPP-012 Sumber Rejo", "Rejected", "", "Demand di bawah target"},
 
-	// --- BPU (Balikpapan Utara) — 8 records ---
+	// --- BPU (Balikpapan Utara) --- 8 records
 	{"BPU", "LOP-BPU-001 Batu Ampar", "Approved", "Go", "Perumahan berkembang"},
 	{"BPU", "LOP-BPU-002 Karang Joang", "Approved", "Go", "Dekat kampus"},
 	{"BPU", "LOP-BPU-003 Muara Rapak", "Approved", "Go", "Campuran"},
@@ -49,7 +39,7 @@ var planningRows = []planningRow{
 	{"BPU", "LOP-BPU-007 Kariangau", "Approved", "No Go", "Area remote, ROI rendah"},
 	{"BPU", "LOP-BPU-008 Margo Mulyo", "Ongoing", "", "Survey lapangan belum final"},
 
-	// --- BPS (Balikpapan Selatan) — 6 records ---
+	// --- BPS (Balikpapan Selatan) --- 6 records
 	{"BPS", "LOP-BPS-001 Sepinggan", "Approved", "Go", "Dekat bandara"},
 	{"BPS", "LOP-BPS-002 Sepinggan Baru", "Approved", "Go", "Perumahan baru"},
 	{"BPS", "LOP-BPS-003 Gunung Bahagia", "Approved", "Go", "Perumahan"},
@@ -57,7 +47,7 @@ var planningRows = []planningRow{
 	{"BPS", "LOP-BPS-005 Damai Baru", "Ongoing", "", "Menunggu approval kelurahan"},
 	{"BPS", "LOP-BPS-006 Sepinggan Raya", "Rejected", "", "Overlap dengan LoP lain"},
 
-	// --- BPT (Balikpapan Timur) — 4 records ---
+	// --- BPT (Balikpapan Timur) --- 4 records
 	{"BPT", "LOP-BPT-001 Manggar", "Approved", "Go", "Perumahan pesisir"},
 	{"BPT", "LOP-BPT-002 Manggar Baru", "Approved", "Go", "Cluster baru"},
 	{"BPT", "LOP-BPT-003 Teritip", "Approved", "Go", "Perumahan"},
@@ -67,7 +57,7 @@ var planningRows = []planningRow{
 func seedPlanning(tx *sql.Tx) error {
 	stmt, err := tx.Prepare(
 		`INSERT INTO planning (project, tahun, sto, nama_lop, status_microdemand, status_lop, keterangan)
-		 VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+		 VALUES (?, ?, ?, ?, ?, ?, ?)`,
 	)
 	if err != nil {
 		return err
@@ -76,13 +66,8 @@ func seedPlanning(tx *sql.Tx) error {
 
 	for _, p := range planningRows {
 		if _, err := stmt.Exec(
-			"Fiber Deployment Balikpapan 2026",
-			"2026",
-			p.STO,
-			p.NamaLop,
-			p.StatusMicrodemand,
-			p.StatusLop,
-			p.Keterangan,
+			"Fiber Deployment Balikpapan 2026", "2026",
+			p.STO, p.NamaLop, p.StatusMicrodemand, p.StatusLop, p.Keterangan,
 		); err != nil {
 			return err
 		}
@@ -90,8 +75,6 @@ func seedPlanning(tx *sql.Tx) error {
 	return nil
 }
 
-// Coordinates cluster around each STO's geographic center in Balikpapan.
-// lat-range / lng-range tight enough to look like the same neighborhood.
 var stoCenter = map[string][2]float64{
 	"BPP": {-1.2654, 116.8312},
 	"BPU": {-1.2015, 116.8520},
@@ -99,10 +82,9 @@ var stoCenter = map[string][2]float64{
 	"BPT": {-1.2405, 116.9105},
 }
 
-// Each LoP gets 1-2 coordinates (simulating multiple ODP points per LoP).
 func seedPlanningOdp(tx *sql.Tx) error {
 	stmt, err := tx.Prepare(
-		`INSERT INTO planning_odp (nama_lop, koordinat) VALUES ($1, $2)`,
+		`INSERT INTO planning_odp (planning_id, koordinat) VALUES (?, ?)`,
 	)
 	if err != nil {
 		return err
@@ -110,22 +92,31 @@ func seedPlanningOdp(tx *sql.Tx) error {
 	defer stmt.Close()
 
 	for i, p := range planningRows {
+		// lookup planning.id by nama_lop
+		var planningID int
+		err := tx.QueryRow(
+			"SELECT id FROM planning WHERE nama_lop = ?", p.NamaLop,
+		).Scan(&planningID)
+		if err != nil {
+			return fmt.Errorf("lookup id for %s: %w", p.NamaLop, err)
+		}
+
 		center := stoCenter[p.STO]
-		// deterministic small offset so coords vary per LoP but stay near center
 		offsetLat := float64((i%7)-3) * 0.0015
 		offsetLng := float64((i%5)-2) * 0.0018
 		lat := center[0] + offsetLat
 		lng := center[1] + offsetLng
 
-		coords := []string{
-			fmt.Sprintf("%.6f,%.6f", lat, lng),
-		}
-		// ~40% of LoPs get a second coordinate point
+		coords := []string{fmt.Sprintf("%.6f,%.6f", lat, lng)}
 		if i%3 == 0 {
 			coords = append(coords, fmt.Sprintf("%.6f,%.6f", lat+0.0008, lng+0.0010))
 		}
 
-		if _, err := stmt.Exec(p.NamaLop, pq.Array(coords)); err != nil {
+		coordJSON, err := json.Marshal(coords)
+		if err != nil {
+			return err
+		}
+		if _, err := stmt.Exec(planningID, string(coordJSON)); err != nil {
 			return err
 		}
 	}

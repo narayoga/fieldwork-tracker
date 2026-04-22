@@ -7,7 +7,7 @@ import (
 
 func CreateOdp(o models.Odp) error {
 	_, err := config.DB.Exec(
-		"INSERT INTO odp (nama_lop, nama_odp, tgl_golive, distribusi) VALUES ($1, $2, $3, $4)",
+		"INSERT INTO odp (nama_lop, nama_odp, tgl_golive, distribusi) VALUES (?, ?, ?, ?)",
 		o.NamaLop, o.NamaOdp, o.TglGolive, o.Distribusi,
 	)
 	return err

@@ -28,7 +28,17 @@
       "Bash(taskkill //F //PID 18044)",
       "Bash(tasklist)",
       "Bash(taskkill //F //PID 11268)",
-      "Bash(dir)"
+      "Bash(dir)",
+      "Bash(psql -U postgres -d pas_database -c \"\\\\d planning\" -c \"\\\\d planning_odp\" -c \"\\\\d construction\" -c \"\\\\d odp\" -c \"\\\\d mitra\")",
+      "Bash(start cmd *)",
+      "Bash(findstr \":80 \")",
+      "Bash(grep -rn '\\\\$[0-9]' \"D:/javascript-projects/.all-over/.all-over/CRM/backend/cmd/seed-demo/\")",
+      "Bash(npx serve *)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "WebFetch(domain:unpkg.com)",
+      "Bash(mv backend/.env .)",
+      "Bash(mv backend/uploads .)",
+      "Bash(rmdir backend *)"
     ]
   }
 }

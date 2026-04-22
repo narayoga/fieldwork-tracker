@@ -22,7 +22,7 @@ func seedOdp(tx *sql.Tx) error {
 	}
 
 	stmt, err := tx.Prepare(
-		`INSERT INTO odp (nama_lop, nama_odp, tgl_golive, distribusi) VALUES ($1, $2, $3, $4)`,
+		`INSERT INTO odp (nama_lop, nama_odp, tgl_golive, distribusi) VALUES (?, ?, ?, ?)`,
 	)
 	if err != nil {
 		return err

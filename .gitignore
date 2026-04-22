@@ -3,16 +3,16 @@ client-main/node_modules/
 client-main/build/
 
 # Environment files (contain secrets)
-backend/.env
+.env
 client-main/.env.local
 client-main/.env.production
 
 # Go build output
-backend/cmd/server/main.exe
-backend/cmd/server/server.exe
+cmd/server/main.exe
+cmd/server/server.exe
 
 # Uploaded files
-backend/uploads/
+uploads/
 
 # OS files
 .DS_Store

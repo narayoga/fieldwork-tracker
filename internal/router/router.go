@@ -1,6 +1,8 @@
 package router
 
 import (
+	"os"
+
 	"pas-backend/internal/handlers"
 	"pas-backend/internal/middleware"
 
@@ -11,8 +13,12 @@ func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.Use(middleware.CORSMiddleware())
 
-	// Static files for uploaded photos
-	r.Static("/uploads", "./uploads")
+	// Static files for uploaded photos — env override for serverless.
+	uploadDir := os.Getenv("UPLOAD_DIR")
+	if uploadDir == "" {
+		uploadDir = "./uploads"
+	}
+	r.Static("/uploads", uploadDir)
 
 	opda := r.Group("/opda")
 	{

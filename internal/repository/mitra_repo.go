@@ -7,7 +7,7 @@ import (
 
 func CreateMitra(m models.Mitra) error {
 	_, err := config.DB.Exec(
-		"INSERT INTO mitra (subcon, manpower, jointer, mandor) VALUES ($1, $2, $3, $4)",
+		"INSERT INTO mitra (subcon, manpower, jointer, mandor) VALUES (?, ?, ?, ?)",
 		m.Subcon, m.Manpower, m.Jointer, m.Mandor,
 	)
 	return err
