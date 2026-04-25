@@ -4,8 +4,8 @@
     { "src": "api/index.go", "use": "@vercel/go" }
   ],
   "routes": [
-    { "src": "/opda/(.*)", "dest": "/api/index" },
-    { "src": "/uploads/(.*)", "dest": "/api/index" },
-    { "src": "/(.*)", "dest": "/api/index" }
+    { "src": "/opda/(.*)", "dest": "api/index.go" },
+    { "src": "/uploads/(.*)", "dest": "api/index.go" },
+    { "src": "/(.*)", "dest": "api/index.go" }
   ]
 }
