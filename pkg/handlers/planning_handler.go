@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"pas-backend/internal/models"
-	"pas-backend/internal/repository"
+	"pas-backend/pkg/models"
+	"pas-backend/pkg/repository"
 
 	"github.com/gin-gonic/gin"
 )

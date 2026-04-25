@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"pas-backend/internal/models"
-	"pas-backend/internal/repository"
+	"pas-backend/pkg/models"
+	"pas-backend/pkg/repository"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"

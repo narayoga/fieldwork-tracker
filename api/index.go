@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"sync"
 
-	"pas-backend/internal/config"
-	"pas-backend/internal/router"
+	"pas-backend/pkg/config"
+	"pas-backend/pkg/router"
 
 	"github.com/gin-gonic/gin"
 )

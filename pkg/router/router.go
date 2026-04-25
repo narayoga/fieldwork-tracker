@@ -3,8 +3,8 @@ package router
 import (
 	"os"
 
-	"pas-backend/internal/handlers"
-	"pas-backend/internal/middleware"
+	"pas-backend/pkg/handlers"
+	"pas-backend/pkg/middleware"
 
 	"github.com/gin-gonic/gin"
 )

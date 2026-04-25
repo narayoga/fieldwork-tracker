@@ -38,7 +38,9 @@
       "WebFetch(domain:unpkg.com)",
       "Bash(mv backend/.env .)",
       "Bash(mv backend/uploads .)",
-      "Bash(rmdir backend *)"
+      "Bash(rmdir backend *)",
+      "Bash(git mv *)",
+      "Bash(git add *)"
     ]
   }
 }

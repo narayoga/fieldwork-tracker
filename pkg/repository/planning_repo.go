@@ -2,8 +2,8 @@ package repository
 
 import (
 	"encoding/json"
-	"pas-backend/internal/config"
-	"pas-backend/internal/models"
+	"pas-backend/pkg/config"
+	"pas-backend/pkg/models"
 )
 
 func CreatePlanning(p models.Planning) error {

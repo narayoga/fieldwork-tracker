@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"pas-backend/internal/config"
-	"pas-backend/internal/models"
+	"pas-backend/pkg/config"
+	"pas-backend/pkg/models"
 )
 
 func CreateUser(req models.RegisterRequest, hashedPassword string) error {

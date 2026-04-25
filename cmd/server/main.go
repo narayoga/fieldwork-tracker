@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 	"os"
-	"pas-backend/internal/config"
-	"pas-backend/internal/router"
+	"pas-backend/pkg/config"
+	"pas-backend/pkg/router"
 
 	"github.com/joho/godotenv"
 )
