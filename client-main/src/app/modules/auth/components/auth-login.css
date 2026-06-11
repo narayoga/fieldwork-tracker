@@ -1,0 +1,191 @@
+/* ============================================================
+   CRM Auth — Login Card Style (battleroom-inspired)
+   Light glassmorphism card · Metronic palette (#009ef7)
+   ============================================================ */
+
+/* ===== Page layout ===== */
+.crm-auth-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+/* ===== Form swap animation (login <-> signup) ===== */
+@keyframes crmFormIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.crm-auth-form {
+  animation: crmFormIn 0.35s ease both;
+}
+
+/* ===== Glass card — light transparent ===== */
+.crm-login-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 460px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 24px;
+  padding: 48px 44px;
+  box-shadow: 0 8px 30px rgba(76,87,125,0.12);
+}
+
+/* ===== Brand (logo + sign up, di atas form) ===== */
+.crm-auth-brand {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.crm-auth-logo {
+  height: 38px;
+  opacity: 1;
+  display: block;
+  margin: 0 auto 12px;
+}
+
+/* ===== Sign up link (di bawah logo) ===== */
+.crm-auth-signup {
+  font-size: 13px;
+  color: #7e8299;
+  font-weight: 500;
+}
+
+.crm-auth-signup-link {
+  color: #009ef7 !important;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.crm-auth-signup-link:hover {
+  color: #0084d6 !important;
+}
+
+/* ===== Tagline (di bawah button Continue) ===== */
+.crm-auth-tagline {
+  font-size: 10px;
+  color: #a1a5b7;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.crm-auth-tagline::before,
+.crm-auth-tagline::after {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: #e4e6ef;
+  display: inline-block;
+}
+
+/* ===== Labels ===== */
+.crm-login-card .form-label {
+  color: #3f4254 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+  margin-bottom: 6px;
+}
+
+/* ===== Inputs ===== */
+.crm-login-card .form-control-solid {
+  background: rgba(255,255,255,0.7) !important;
+  border: 1px solid #e4e6ef !important;
+  border-radius: 12px !important;
+  color: #181c32 !important;
+  font-size: 13px;
+  padding: 13px 16px !important;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.crm-login-card .form-control-solid::placeholder {
+  color: #a1a5b7 !important;
+}
+
+.crm-login-card .form-control-solid:focus {
+  border-color: rgba(0,158,247,0.55) !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(0,158,247,0.12) !important;
+}
+
+.crm-login-card .form-control-solid.is-valid {
+  border-color: rgba(27,197,189,0.55) !important;
+}
+
+.crm-login-card .form-control-solid.is-invalid {
+  border-color: rgba(246,78,96,0.55) !important;
+}
+
+/* ===== Submit button ===== */
+.crm-login-card .btn-primary {
+  background: linear-gradient(135deg, #009ef7 0%, #006fd6 100%) !important;
+  border: none !important;
+  border-radius: 14px !important;
+  padding: 14px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+  box-shadow: 0 8px 24px rgba(0,158,247,0.30) !important;
+  transition: all 0.25s ease !important;
+}
+
+.crm-login-card .btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 32px rgba(0,158,247,0.40) !important;
+}
+
+.crm-login-card .btn-primary:disabled {
+  opacity: 0.45 !important;
+  transform: none !important;
+}
+
+/* ===== Validation ===== */
+.crm-login-card .fv-help-block {
+  color: #F64E60 !important;
+  font-size: 11px;
+}
+
+/* ===== Alert ===== */
+.crm-login-card .alert-danger {
+  background: rgba(246,78,96,0.10) !important;
+  border: 1px solid rgba(246,78,96,0.22) !important;
+  color: #F64E60 !important;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+/* ===== Registration helper text (password hint) ===== */
+.crm-login-card .text-muted {
+  color: #a1a5b7 !important;
+  font-size: 12px !important;
+}
+
+/* ===== Select dropdown ===== */
+.crm-login-card .form-select.form-control-solid {
+  color: #181c32 !important;
+}
+
+/* ===== Password meter bars ===== */
+.crm-login-card .bg-secondary {
+  background-color: #e4e6ef !important;
+}
+
+/* ===== Quick Login — fixed top-right of page ===== */
+.crm-role-picker-fixed {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 1000;
+}

@@ -5,6 +5,7 @@ import { ModalButtonUpdate } from './modal/Update-Construct'
 import { ModalEvidence } from './modal/Evidence'
 import ModalButtonProject from "./modal/Add-Lop"
 import { KTCard } from '../../../_metronic/helpers'
+import { Loader } from '../../components/Loader'
 
 const Group = ({ postsPerPage, totalPosts, currentPage, setCurrentPage }) => {
   const pages = [];
@@ -105,6 +106,7 @@ const TableConstruct = () => {
   const [postsPerPage] = useState(10)
 
   const [warning, setWarning] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [option, setOption] = useState([])
   const sto_style = (val) => {
     return { cursor: "pointer", verticalAlign: "middle", width: `${val}vw` }
@@ -144,6 +146,7 @@ const TableConstruct = () => {
         setWarning(true)
       })
       .catch(err => console.log(err))
+      .finally(() => setLoading(false))
   }
 
   const filter = (param, param2, param3) => {
@@ -377,7 +380,13 @@ const TableConstruct = () => {
               </tr>
             </thead>
             <tbody className='text-center text-gray-600 fw-bold' role={"rowgroup"}>
-              {currentPosts.length === 0 || warning ?
+              {loading ?
+                <tr className='text-center'>
+                  <td colSpan={10}>
+                    <Loader minHeight={180} />
+                  </td>
+                </tr>
+                : currentPosts.length === 0 || warning ?
                 <tr className='text-center text-muted'>
                   <td colSpan={10}>
                     no matching record found

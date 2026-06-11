@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import { getUserByToken, register } from '../core/_requests'
 import { Link, Navigate } from 'react-router-dom'
 import { PasswordMeterComponent } from '../../../../_metronic/assets/ts/components'
+import { toAbsoluteUrl } from '../../../../_metronic/helpers'
 import { useAuth } from '../core/Auth'
 import { useNavigate } from 'react-router-dom'
 
@@ -82,23 +83,17 @@ export function Registration() {
   }, [])
 
   return (
-    <form className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework' noValidate id='kt_login_signup_form' onSubmit={formik.handleSubmit}>
-      {/* begin::Heading */}
-      <div className='mb-10 text-center'>
-        {/* begin::Title */}
-        <h1 className='text-dark mb-3'>Create an Account</h1>
-        {/* end::Title */}
-
-        {/* begin::Link */}
-        <div className='text-gray-400 fw-bold fs-4'>
-          Already have an account?
-          <Link to='/auth/login' className='link-primary fw-bolder' style={{ marginLeft: '5px' }}>
+    <form className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework crm-auth-form' noValidate id='kt_login_signup_form' onSubmit={formik.handleSubmit}>
+      {/* Brand — logo + login link */}
+      <div className='crm-auth-brand'>
+        <img alt='Logo' src={toAbsoluteUrl('/media/logos/pas.png')} className='crm-auth-logo' />
+        <div className='crm-auth-signup'>
+          Already have an account?{' '}
+          <Link to='/auth/login' className='crm-auth-signup-link'>
             Login
           </Link>
         </div>
-        {/* end::Link */}
       </div>
-      {/* end::Heading */}
 
       {formik.status && (
         <div className='mb-lg-15 alert alert-danger'>

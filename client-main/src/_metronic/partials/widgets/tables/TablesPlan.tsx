@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { KTSVG } from '../../../helpers'
 import planJson from './json/planning.json'
 import axios from 'axios'
+import { Loader } from '../../../../app/components/Loader'
 
 type Props = {
   className: string
@@ -12,6 +13,7 @@ const TablesPlan: React.FC<Props> = ({ className }, prop) => {
   const token = localStorage.getItem('token')
   const [posts, setPosts] = useState<any>([])
   const [warning, setWarning] = useState<boolean | string>('')
+  const [loading, setLoading] = useState<boolean>(true)
   const title = 'Planning Recap'
   const sto_style = (val: number) => {
     return { verticalAlign: "middle", width: `${val}vw` }
@@ -28,6 +30,7 @@ const TablesPlan: React.FC<Props> = ({ className }, prop) => {
         setWarning(true)
       })
       .catch(err => console.log(err))
+      .finally(() => setLoading(false))
   }
   useEffect(() => {
     getItem()
@@ -84,10 +87,16 @@ const TablesPlan: React.FC<Props> = ({ className }, prop) => {
             {/* end::Table head */}
             {/* begin::Table body */}
             <tbody className='text-center text-gray-600 fw-bold' role={"rowgroup"}>
-              {posts.length === 0 || warning ?
+              {loading ?
+                <tr className='text-center'>
+                  <td colSpan={8}>
+                    <Loader minHeight={160} />
+                  </td>
+                </tr>
+                : posts.length === 0 || warning ?
                 <tr className='text-center mt-5'>
-                  <td colSpan={7}>
-                    <div className='text-black font-weight-bold ' style={{ top: "-2px" }}>no match data found</div>
+                  <td colSpan={8}>
+                    <div className='text-muted fw-bold' style={{ top: "-2px" }}>no match data found</div>
                   </td>
                 </tr>
                 :

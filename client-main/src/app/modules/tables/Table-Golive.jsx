@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import ModalButtonProject from '../tables/modal-golive/Add-Golive'
 import { KTCard, KTSVG } from '../../../_metronic/helpers'
+import { Loader } from '../../components/Loader'
 
 const Group = ({ postsPerPage, totalPosts, currentPage, setCurrentPage }) => {
   const pages = [];
@@ -104,6 +105,7 @@ const TableGoLive = () => {
   const [minPageNumberLimit, setminPageNumberLimit] = useState(0);
 
   const [warning, setWarning] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const sto_style = (val) => {
     return { verticalAlign: "middle", width: `${val}vw` }
@@ -122,6 +124,7 @@ const TableGoLive = () => {
         setWarning(true)
       })
       .catch(err => console.log(err))
+      .finally(() => setLoading(false))
   }
 
   const keysFilter = ['nama_lop', 'nama_odp', 'distribusi', 'tgl_golive']
@@ -182,7 +185,13 @@ const TableGoLive = () => {
               </tr>
             </thead>
             <tbody className='text-center text-gray-600 fw-bold' role={"rowgroup"}>
-              {currentPosts.length === 0 || warning ?
+              {loading ?
+                <tr className='text-center'>
+                  <td colSpan={7}>
+                    <Loader minHeight={180} />
+                  </td>
+                </tr>
+                : currentPosts.length === 0 || warning ?
                 <tr className='text-center text-muted'>
                   <td colSpan={7}>
                     no matching record found

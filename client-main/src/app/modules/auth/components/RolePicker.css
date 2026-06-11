@@ -1,8 +1,5 @@
 .role-picker {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 10;
+  position: relative;
 }
 
 .role-picker__toggle {

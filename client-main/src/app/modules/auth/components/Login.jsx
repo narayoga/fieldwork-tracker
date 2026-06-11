@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useContext, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import { Link, useNavigate } from 'react-router-dom'
@@ -93,52 +94,52 @@ export function Login() {
 
   return (
     <form
-      className='form w-100'
+      className='form w-100 crm-auth-form'
       onSubmit={formik.handleSubmit}
       noValidate
       id='kt_login_signin_form'
-      style={{ position: 'relative' }}
     >
-      {/* begin::Role Picker */}
-      <div className='role-picker'>
-        <button
-          type='button'
-          className='role-picker__toggle'
-          onClick={() => setShowRoles((v) => !v)}
-        >
-          Quick Login
-          <span className={`role-picker__caret ${showRoles ? 'role-picker__caret--open' : ''}`}>
-            &#9662;
-          </span>
-        </button>
-        <div className={`role-picker__panel ${showRoles ? 'role-picker__panel--open' : ''}`}>
-          <div className='role-picker__header'>Pick a role</div>
-          {ROLE_PRESETS.map((preset) => (
-            <button
-              key={preset.role}
-              type='button'
-              className='role-picker__item'
-              onClick={() => handlePickRole(preset)}
-            >
-              <span className='role-picker__item-role'>{preset.role}</span>
-              <span className='role-picker__item-user'>{preset.username}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-      {/* end::Role Picker */}
+      {/* Quick Login — portal ke body, jadi sibling card di luar backdrop-filter */}
+      {ReactDOM.createPortal(
+        <div className='crm-role-picker-fixed'>
+          <button
+            type='button'
+            className='role-picker__toggle'
+            onClick={() => setShowRoles((v) => !v)}
+          >
+            Quick Login
+            <span className={`role-picker__caret ${showRoles ? 'role-picker__caret--open' : ''}`}>
+              &#9662;
+            </span>
+          </button>
+          <div className={`role-picker__panel ${showRoles ? 'role-picker__panel--open' : ''}`}>
+            <div className='role-picker__header'>Pick a role</div>
+            {ROLE_PRESETS.map((preset) => (
+              <button
+                key={preset.role}
+                type='button'
+                className='role-picker__item'
+                onClick={() => handlePickRole(preset)}
+              >
+                <span className='role-picker__item-role'>{preset.role}</span>
+                <span className='role-picker__item-user'>{preset.username}</span>
+              </button>
+            ))}
+          </div>
+        </div>,
+        document.body
+      )}
 
-      {/* begin::Heading */}
-      <div className='text-center mb-10'>
-        <h1 className='text-dark mb-3'>Sign In to PAS</h1>
-        <div className='text-gray-400 fw-bold fs-4'>
+      {/* Brand — logo + sign up */}
+      <div className='crm-auth-brand'>
+        <img alt='Logo' src={toAbsoluteUrl('/media/logos/pas.png')} className='crm-auth-logo' />
+        <div className='crm-auth-signup'>
           New Here?{' '}
-          <Link to='/auth/registration' className='link-primary fw-bolder'>
+          <Link to='/auth/registration' className='crm-auth-signup-link'>
             Create an Account
           </Link>
         </div>
       </div>
-      {/* begin::Heading */}
       {formik.status ? (
         <div className='mb-lg-15 alert alert-danger'>
           <div className='alert-text font-weight-bold'>{formik.status}</div>
@@ -225,6 +226,9 @@ export function Login() {
             </span>
           )}
         </button>
+
+        {/* Tagline */}
+        <div className='crm-auth-tagline'>Secure &amp; Encrypted Connection</div>
       </div>
       {/* end::Action */}
     </form>
