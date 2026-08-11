@@ -8,17 +8,18 @@ import (
 func GetPlanningRecap() ([]models.PlanningRecap, error) {
 	rows, err := config.DB.Query(`
 		SELECT
-			sto,
-			COUNT(*) as jumlah_lop,
-			0 as jumlah_odp,
-			SUM(CASE WHEN status_microdemand = 'Ongoing'  THEN 1 ELSE 0 END) as ongoing,
-			SUM(CASE WHEN status_microdemand = 'Rejected' THEN 1 ELSE 0 END) as rejected,
-			SUM(CASE WHEN status_microdemand = 'Approved' THEN 1 ELSE 0 END) as approved,
-			SUM(CASE WHEN status_lop = 'Go'              THEN 1 ELSE 0 END) as status_go,
-			SUM(CASE WHEN status_lop = 'No Go'           THEN 1 ELSE 0 END) as status_no_go
-		FROM planning
-		GROUP BY sto
-		ORDER BY sto
+			p.sto,
+			COUNT(DISTINCT p.id) as jumlah_lop,
+			COUNT(po.id) as jumlah_odp,
+			SUM(CASE WHEN p.status_microdemand = 'Ongoing'  THEN 1 ELSE 0 END) as ongoing,
+			SUM(CASE WHEN p.status_microdemand = 'Rejected' THEN 1 ELSE 0 END) as rejected,
+			SUM(CASE WHEN p.status_microdemand = 'Approved' THEN 1 ELSE 0 END) as approved,
+			SUM(CASE WHEN p.status_lop = 'Go'              THEN 1 ELSE 0 END) as status_go,
+			SUM(CASE WHEN p.status_lop = 'No Go'           THEN 1 ELSE 0 END) as status_no_go
+		FROM planning p
+		LEFT JOIN planning_odp po ON po.planning_id = p.id
+		GROUP BY p.sto
+		ORDER BY p.sto
 	`)
 	if err != nil {
 		return nil, err

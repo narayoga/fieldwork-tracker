@@ -8,11 +8,17 @@ client-main/.env.local
 client-main/.env.production
 
 # Go build output
+main.exe
+server.exe
 cmd/server/main.exe
 cmd/server/server.exe
 
 # Uploaded files
 uploads/
+
+# Logs & tooling dumps
+*.log
+repomix-output.xml
 
 # OS files
 .DS_Store

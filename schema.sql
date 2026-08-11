@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS planning (
     project             VARCHAR(255) DEFAULT '',
     tahun               VARCHAR(10)  DEFAULT '',
     sto                 VARCHAR(10)  NOT NULL,
-    nama_lop            VARCHAR(255) NOT NULL,
+    nama_lop            VARCHAR(255) NOT NULL UNIQUE,
     status_microdemand  VARCHAR(50)  DEFAULT '',
     status_lop          VARCHAR(50)  DEFAULT '',
     keterangan          TEXT         DEFAULT '',
@@ -28,10 +28,10 @@ CREATE TABLE IF NOT EXISTS planning (
 
 CREATE TABLE IF NOT EXISTS planning_odp (
     id          INT AUTO_INCREMENT PRIMARY KEY,
-    nama_lop    VARCHAR(255) NOT NULL,
+    planning_id INT          NOT NULL,
     koordinat   JSON         NOT NULL,
-    CONSTRAINT fk_planning_odp_lop
-        FOREIGN KEY (nama_lop) REFERENCES planning(nama_lop)
+    CONSTRAINT fk_planning_odp_planning
+        FOREIGN KEY (planning_id) REFERENCES planning(id)
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
