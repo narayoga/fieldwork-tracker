@@ -10,7 +10,7 @@ func GetPlanningRecap() ([]models.PlanningRecap, error) {
 		SELECT
 			p.sto,
 			COUNT(DISTINCT p.id) as jumlah_lop,
-			COUNT(po.id) as jumlah_odp,
+			COALESCE(SUM(JSON_LENGTH(po.koordinat)), 0) as jumlah_odp,
 			SUM(CASE WHEN p.status_microdemand = 'Ongoing'  THEN 1 ELSE 0 END) as ongoing,
 			SUM(CASE WHEN p.status_microdemand = 'Rejected' THEN 1 ELSE 0 END) as rejected,
 			SUM(CASE WHEN p.status_microdemand = 'Approved' THEN 1 ELSE 0 END) as approved,
