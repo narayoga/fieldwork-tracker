@@ -68,7 +68,18 @@
       "Bash(grep -iE \"server\\\\.exe|repomix|\\\\.log$\")",
       "Bash(python -c \"import json;json.load\\(open\\('.claude/settings.local.json'\\)\\);print\\('settings.local.json valid'\\)\")",
       "Bash(go build *)",
-      "Bash(go vet *)"
+      "Bash(go vet *)",
+      "Bash(git commit *)",
+      "Bash(git ls-remote *)",
+      "Bash(SERVER_PORT=8081 go run ./cmd/server)",
+      "Bash(curl -s -X POST http://localhost:8090/opda/login/ -H \"Content-Type: application/json\" -d '{\"username\":\"admin\",\"password\":\"Password123\"}' --max-time 15 -w \"\\\\nHTTP %{http_code}\\\\n\")",
+      "Bash(curl -s --max-time 20 \"https://fieldwork-tracker-zyc6.vercel.app/\")",
+      "Bash(curl -s -I --max-time 20 \"https://fieldwork-tracker-zyc6.vercel.app/\")",
+      "Bash(curl -s -I --max-time 25 \"https://fieldwork-tracker-git-go-vercel-version-narayogas-projects.vercel.app/opda/login/\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} tipe %{content_type} ukuran %{size_download}B\\\\n\" --max-time 25 \"https://fieldwork-tracker.vercel.app/\")",
+      "Bash(curl -s -X POST \"https://fieldwork-tracker.vercel.app/opda/login/\" -H \"Content-Type: application/json\" -d '{\"username\":\"admin\",\"password\":\"Password123\"}' --max-time 25 -D -)",
+      "Bash(curl -s --max-time 25 \"https://fieldwork-tracker.vercel.app/\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} tipe %{content_type}\\\\n\" --max-time 25 \"https://fieldwork-tracker.vercel.app/opda/login/\")"
     ]
   }
 }
