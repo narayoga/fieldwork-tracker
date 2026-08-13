@@ -1,11 +1,13 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/index.go", "use": "@vercel/go" }
+    { "src": "api/index.go", "use": "@vercel/go" },
+    { "src": "client-main/package.json", "use": "@vercel/static-build", "config": { "distDir": "build" } }
   ],
   "routes": [
     { "src": "/opda/(.*)", "dest": "api/index.go" },
     { "src": "/uploads/(.*)", "dest": "api/index.go" },
-    { "src": "/(.*)", "dest": "api/index.go" }
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
