@@ -7,7 +7,7 @@
   "routes": [
     { "src": "/opda/(.*)", "dest": "api/index.go" },
     { "src": "/uploads/(.*)", "dest": "api/index.go" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "/(.+\\.[a-zA-Z0-9]+)$", "dest": "/client-main/$1" },
+    { "src": "/(.*)", "dest": "/client-main/index.html" }
   ]
 }
